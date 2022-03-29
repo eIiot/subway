@@ -1,168 +1,189 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8'/>
-	<title>NYC Subway Travel Time Map</title>
-	<meta property="og:title" content="NYC Subway Travel Time Map" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="http://subway.nateparrott.com" />
-	<meta property="og:image" content="http://subway.nateparrott.com/og.png" />
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@nateparrott">
-	<meta name="twitter:creator" content="@nateparrott">
-	<meta name="twitter:title" content="NYC Subway Travel Time Map">
-	<meta name="twitter:image" content="http://subway.nateparrott.com/og.png">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="http://d3js.org/d3.v4.min.js"></script>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-			font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-			-webkit-font-smoothing: antialiased;
-    }
-    svg {
-      background-color: #f8f8ff;
-      height: 100%;
-      width: 100%;
-    }
-		.tooltip {
-			position: absolute;
-			pointer-events: none;
-			background-color: #2a2a2f;
-			color: white;
-			font-size: small;
-			padding: 4px 8px;
-		}
-		svg {
-			cursor: -webkit-grab;
-			cursor: -moz-grab;
-		}
-		.stop, .home {
-			cursor: default;
-		}
-		.line, .stop, .home {
-	    vector-effect: non-scaling-stroke;
-		}
-		.stop {
-			stroke-width: 15;
-			stroke: transparent;
-		}
-		.hour {
-			stroke: rgba(0,0,100,0.1);
-			stroke-width: 1px;
-			fill: transparent;
-			z-index: -1;
-		}
-		#info {
-			position: fixed;
-			top: 2vh;
-			left: 2vh;
-			width: 25vw;
-			background-color: #36363f;
-			color: white;
-			padding: 10px;
-			line-height: 1.4;
-		}
-		#info h1 {
-			font-size: 1.2em;
-			margin-top: 0;
-			border-top: 2px solid white;
-			padding-top: 5px;
-		}
-		#info p {
-			
-		}
-		#info .fine-print {
-			opacity: 0.5;
-			font-size: small;
-		}
-		#explanation {
-			display: none;
-		}
-		a:link, a:visited {
-			color: inherit;
-		}
-		#attribution {
-			margin-top: 2em;
-			text-align: right;
-			font-size: small;
-			margin-bottom: 0;
-		}
-		#timePicker h6 {
-			text-transform: uppercase;
-			font-weight: bold;
-			margin-bottom: 0;
-		}
-		#timePicker ul {
-			padding: 0;
-			margin-top: 0;
-		}
-		#timePicker li {
-			cursor: default;
-			opacity: 0.5;
-		}
-		#timePicker li.selected {
-			text-decoration: underline;
-			opacity: 1;
-		}
-		#timePicker li:hover {
-			text-decoration: underline;
-		}
-		@media screen and (max-width: 500px) {
-			.stop {
-				stroke-width: 22px;
-			}
-			#info {
-				width: auto;
-				right: 2vh;
-				top: auto;
-				bottom: 2vh;
-				max-height: 20vh;
-				overflow-y: auto;
-				-webkit-overflow-scrolling: touch;
-			}
-		}
-  </style>
-  <script src="subway.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="schedules/transfers.js"></script>
-  <script src="https://unpkg.com/js-heap@0.3.1/heap.js"></script>
-  <script src="virtual_rider.js"></script>
-	
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37604830-12"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+  <head>
+    <meta charset="utf-8" />
+    <title>NYC Subway Travel Time Map</title>
+    <meta property="og:title" content="NYC Subway Travel Time Map" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://subway.nateparrott.com" />
+    <meta property="og:image" content="http://subway.nateparrott.com/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@nateparrott" />
+    <meta name="twitter:creator" content="@nateparrott" />
+    <meta name="twitter:title" content="NYC Subway Travel Time Map" />
+    <meta name="twitter:image" content="http://subway.nateparrott.com/og.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      svg {
+        background-color: #f8f8ff;
+        height: 100%;
+        width: 100%;
+      }
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background-color: #2a2a2f;
+        color: white;
+        font-size: small;
+        padding: 4px 8px;
+      }
+      svg {
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+      }
+      .stop,
+      .home {
+        cursor: default;
+      }
+      .line,
+      .stop,
+      .home {
+        vector-effect: non-scaling-stroke;
+      }
+      .stop {
+        stroke-width: 15;
+        stroke: transparent;
+      }
+      .hour {
+        stroke: rgba(0, 0, 100, 0.1);
+        stroke-width: 1px;
+        fill: transparent;
+        z-index: -1;
+      }
+      #info {
+        position: fixed;
+        top: 2vh;
+        left: 2vh;
+        width: 25vw;
+        background-color: #36363f;
+        color: white;
+        padding: 10px;
+        line-height: 1.4;
+      }
+      #info h1 {
+        font-size: 1.2em;
+        margin-top: 0;
+        border-top: 2px solid white;
+        padding-top: 5px;
+      }
+      #info p {
+      }
+      #info .fine-print {
+        opacity: 0.5;
+        font-size: small;
+      }
+      #explanation {
+        display: none;
+      }
+      a:link,
+      a:visited {
+        color: inherit;
+      }
+      #attribution {
+        margin-top: 2em;
+        text-align: right;
+        font-size: small;
+        margin-bottom: 0;
+      }
+      #timePicker h6 {
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+      #timePicker ul {
+        padding: 0;
+        margin-top: 0;
+      }
+      #timePicker li {
+        cursor: default;
+        opacity: 0.5;
+      }
+      #timePicker li.selected {
+        text-decoration: underline;
+        opacity: 1;
+      }
+      #timePicker li:hover {
+        text-decoration: underline;
+      }
+      @media screen and (max-width: 500px) {
+        .stop {
+          stroke-width: 22px;
+        }
+        #info {
+          width: auto;
+          right: 2vh;
+          top: auto;
+          bottom: 2vh;
+          max-height: 20vh;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+    </style>
+    <script src="subway.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="schedules/transfers.js"></script>
+    <script src="https://unpkg.com/js-heap@0.3.1/heap.js"></script>
+    <script src="virtual_rider.js"></script>
 
-	  gtag('config', 'UA-37604830-12');
-	</script>
-	
-</head>
-<body>
-  <script src='map.js'></script>
-	<div id='info'>
-		<div id='initial'>
-			<h1>Click a Stop</h1>
-		</div>
-		<div id='explanation'>
-			<h1>NYC Travel Time Map</h1>
-			<p>On this map, each stop‘s distance from your chosen stop is based on the time it‘ll take to travel there.</p>
-			<div id='timePicker'>
-				<h6>Travel time:</h6>
-				<ul>
-					<li class='selected' data-schedule='weekday_8am'>Weekday rush hour</li>
-					<li data-schedule='weekday_3am'>Weekday late night</li>
-					<li data-schedule='sunday_afternoon'>Weekend afternoon</li>
-				</ul>
-			</div>
-			<p class='fine-print'>Travel time predictions are based on the MTA‘s published schedule, assuming an 8 AM weekday departure. They may be a little optimistic these days.</p>
-			<p id='attribution'>
-				by <a href='http://twitter.com/nateparrott'>Nate Parrott</a> | <a href='https://github.com/nate-parrott/subway'>github</a> | <a href='/howitworks.html'>how it works</a>
-			</p>
-		</div>
-	</div>
-</body>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-37604830-12"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-37604830-12");
+    </script>
+  </head>
+  <body>
+    <script src="map.js"></script>
+    <div id="info">
+      <div id="initial">
+        <h1>Click a Stop</h1>
+      </div>
+      <div id="explanation">
+        <h1>NYC Travel Time Map</h1>
+        <p>
+          On this map, each stop's distance from your chosen stop is based on
+          the time it'll take to travel there.
+        </p>
+        <div id="timePicker">
+          <h6>Travel time:</h6>
+          <ul>
+            <li class="selected" data-schedule="weekday_8am">
+              Weekday morning rush hour
+            </li>
+            <li data-schedule="weekday_5pm">Weekday evening rush hour</li>
+            <li data-schedule="weekday_8pm">Weekday night</li>
+            <li data-schedule="sunday_afternoon">Weekend afternoon</li>
+          </ul>
+        </div>
+        <p class="fine-print">
+          Travel time predictions are based on BART's published schedule,
+          assuming an 8 AM weekday departure. They may be a little optimistic
+          these days.
+        </p>
+        <p id="attribution">
+          by <a href="https://github.com/eiiot">Eliot Hertenstein</a> forked
+          from <a href="http://twitter.com/nateparrott">Nate Parrott</a> |
+          <a href="https://github.com/eiiot/subway">github</a> |
+          <a href="/howitworks.html">how it works</a>
+        </p>
+      </div>
+    </div>
+  </body>
 </html>

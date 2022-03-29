@@ -14,6 +14,7 @@ def gtfs_json(gtfs_path, service_group, min_time=0, max_time=48*HOURS):
         if stop['parent_station']:
             parent_stops[stop['stop_id']] = stop['parent_station']
     def resolve_stop_id(stop_id):
+        print(stop_id)
         return parent_stops.get(stop_id, stop_id)
     
     transfers = defaultdict(list)
@@ -28,9 +29,9 @@ def gtfs_json(gtfs_path, service_group, min_time=0, max_time=48*HOURS):
     stop_times = read_csv('stop_times')
     
     service_groups = {
-        'saturday': ['A20171105SAT', 'B20171105SAT'],
-        'sunday': ['A20171105SUN', 'B20171105SUN'],
-        'weekdays': ['A20171105WKD', 'B20171105WKD']
+        'saturday': ['2022_02_14-SA-MVS-Saturday-03','2022_02_14-SA19-Saturday-01','2022_02_14-SA20-Saturday-01'],
+        'sunday': ['2022_02_14-SU-MVS-Sunday-25', '2022_02_14-SU-MVS-Sunday-27','2022_02_14-SU19-Sunday-01','2022_02_14-SU20-Sunday-01'],
+        'weekdays': ['2022_02_14-DX-MVS-Weekday-02', '2022_02_14-DX19-Weekday-01','2022_02_14-DX20-Weekday-01']
     }
     service_ids = service_groups[service_group]
     
@@ -56,8 +57,8 @@ assert time_str_to_float('01:23:00') == 1 * 60 * 60 + 23 * 60
 if __name__ == '__main__':
     schedules = [
         ('weekday_8am', 'weekdays', 8, 11),
-        ('weekday_midnight', 'weekdays', 0, 4),
-        ('weekday_3am', 'weekdays', 3, 8),
+                ('weekday_5pm', 'weekdays', 17, 20),
+        ('weekday_8pm', 'weekdays', 20, 23),
         ('sunday_afternoon', 'sunday', 13, 17)
     ]
     for (name, service_group, start_hour, end_hour) in schedules:

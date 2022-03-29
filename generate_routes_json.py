@@ -28,11 +28,11 @@ routes_by_id = {}
 for route in csv.DictReader(open('google_transit/routes.txt')):
     routes_by_id[route['route_id']] = route
 
-weekday_service_ids = set(['A20171105WKD', 'B20171105WKD'])
+weekday_service_ids = set(['2022_02_14-DX-MVS-Weekday-02', '2022_02_14-DX19-Weekday-01','2022_02_14-DX20-Weekday-01',])
 trips_by_id = {}
 
 for trip in csv.DictReader(open('google_transit/trips.txt')):
-    if trip['service_id'] in weekday_service_ids:
+    if 'weekday' in weekday_service_ids:
         trips_by_id[trip['trip_id']] = trip
 
 stop_times_by_line_and_station = defaultdict(list)
