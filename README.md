@@ -1,6 +1,7 @@
 # BART Travel Time Map
 
 ![Animation](mapgif.gif)
+
 *Todo: Update Animation*
 
 ## How does it work?
