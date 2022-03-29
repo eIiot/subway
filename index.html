@@ -2,16 +2,22 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>NYC Subway Travel Time Map</title>
-    <meta property="og:title" content="NYC Subway Travel Time Map" />
+    <title>BART Subway Travel Time Map</title>
+    <meta property="og:title" content="BART Subway Travel Time Map" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://subway.nateparrott.com" />
-    <meta property="og:image" content="http://subway.nateparrott.com/og.png" />
+    <meta property="og:url" content="http://eliothertenstein.com/subway" />
+    <meta
+      property="og:image"
+      content="http://eliothertenstein.com/subway/og.png"
+    />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@nateparrott" />
-    <meta name="twitter:creator" content="@nateparrott" />
+    <meta name="twitter:site" content="@eiioth" />
+    <meta name="twitter:creator" content="@eiioth" />
     <meta name="twitter:title" content="NYC Subway Travel Time Map" />
-    <meta name="twitter:image" content="http://subway.nateparrott.com/og.png" />
+    <meta
+      name="twitter:image"
+      content="http://eliothertenstein.com/subway/og.png"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <style>
@@ -128,16 +134,17 @@
         }
       }
     </style>
-    <script src="subway.js"></script>
+    <script src="./subway.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="schedules/transfers.js"></script>
+    <script src="./schedules/transfers.js"></script>
     <script src="https://unpkg.com/js-heap@0.3.1/heap.js"></script>
-    <script src="virtual_rider.js"></script>
+    <script src="./virtual_rider.js"></script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Analytics -->
     <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-37604830-12"
+      defer
+      data-domain="eliothertenstein.com/subway"
+      src="https://analytics.eliothertenstein.com/js/plausible.js"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -156,7 +163,7 @@
         <h1>Click a Stop</h1>
       </div>
       <div id="explanation">
-        <h1>NYC Travel Time Map</h1>
+        <h1>BART Travel Time Map</h1>
         <p>
           On this map, each stop's distance from your chosen stop is based on
           the time it'll take to travel there.

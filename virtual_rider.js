@@ -92,7 +92,7 @@ let getSchedule = (name, callback) => {
   if (scheduleCache[name]) {
     callback(scheduleCache[name]);
   } else {
-    d3.json("/schedules/" + name + ".json", (schedule) => {
+    d3.json("./schedules/" + name + ".json", (schedule) => {
       scheduleCache[name] = schedule;
       callback(schedule);
     });
